@@ -1,12 +1,13 @@
 import streamlit as st
 
-'### This is our Project for CS4641: Machine Learning'
-'More to Follow...'
+'### Spotify Recommendation System'
 
 'A project proposal should include:'
 
-'Introduction/Background: A quick introduction of your topic and mostly literature review of what has been done in this area.' 
-'You can briefly explain your dataset and its features here too.'
+'## Introduction/Background: A quick introduction of your topic and mostly literature review of what has been done in this area.' 
+'Finding new music is something that everyone struggles with. We aim to quell the struggle using machine learning to suggest songs similar to user taste, by analyzing existent songs on Spotify according to their features of danceability, energy, and others.'
+'By doing this, we will be able to recommend songs to users according to several filters that they select, which will be according to mood, vocals, genre, and others.'
+'To accomplish this, we plan on using a dataset containing information about thousands of songs on spotify of various genres, in order to find similar traits amongst certain songs'
 
 'Problem definition: Why there is a problem here or what is the motivation of the project?'
 
