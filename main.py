@@ -1,5 +1,10 @@
 import streamlit as st
 import pandas as pd
+st.set_page_config(
+        page_title="Recommendio",
+        page_icon="musical_note",
+        layout="wide",
+    )
 '# Spotify Recommendation Algorithm' 
 
 '## Introduction/Background:' #A quick introduction of your topic and mostly literature review of what has been done in this area. 
