@@ -29,10 +29,10 @@ st.markdown(':red[TODO:'
 # Create a list of dictionaries with each member's name and their contribution
 contributions = [
     {'Name': 'Adhish Rajan', 'Contribution': 'Creating Gantt Chart and identifying methods/algorithms'},
-    {'Name': 'Michael Osmolovskiy', 'Contribution': 'Creating Github repository, finding dataset, and writing proposal'},
+    {'Name': 'Michael Osmolovskiy', 'Contribution': 'Creating Github repository, finding dataset, and writing introduction, problem definition, methods, and identifying metrics'},
     {'Name': 'Abhinav', 'Contribution': 'Creating presentation slides for video and recording video proposal'},
     {'Name': 'Arin Khanna', 'Contribution': 'Creating Gantt Chart'},
-    {'Name': 'Vedesh Yadlapalli', 'Contribution': 'Researching and identifying the problem being solved, writing proposal'},
+    {'Name': 'Vedesh Yadlapalli', 'Contribution': 'Researching and identifying the problem being solved, writing proposal, finding peer-reviewed articles'},
 ]
 df = pd.DataFrame(contributions)
 # Display the table using st.table
