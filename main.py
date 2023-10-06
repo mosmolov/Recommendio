@@ -1,5 +1,5 @@
 import streamlit as st
-
+import pandas as pd
 '### Spotify Recommendation System'
 
 'A project proposal should include:'
@@ -23,3 +23,20 @@ import streamlit as st
 'Add proposed timeline from start to finish and list each project members’ responsibilities. Fall and Spring semester sample Gantt Chart. This part does NOT count towards word limit.'
 'A contribution table with all group members’ names that explicitly provides the contribution of each member in preparing the project task. This part does NOT count towards word limit.'
 'A checkpoint to make sure you are working on a proper machine learning related project. You are required to have your dataset ready when you submit your proposal. You can change dataset later. However, you are required to provide some reasonings why you need to change the dataset (i.e. dataset is not large enough because it does not provide us a good accuracy comparing to other dataset; we provided accuracy comparison between these two datasets). The reasonings can be added as a section to your future project reports such as midterm report.'
+
+
+'## Contribution Table'
+
+# Create a list of dictionaries with each member's name and their contribution
+contributions = [
+    {'Name': 'Adhish Rajan', 'Contribution': 'Creating Gantt Chart and identifying methods/algorithms'},
+    {'Name': 'Michael Osmolovskiy', 'Contribution': 'Creating Github repository, finding dataset, and writing proposal'},
+    {'Name': 'Abhinav', 'Contribution': 'Creating presentation slides for video and recording video proposal'},
+    {'Name': 'Arin Khanna', 'Contribution': 'Creating Gantt Chart'},
+    {'Name': 'Vedesh Yadlapalli', 'Contribution': 'Researching and identifying the problem being solved, writing proposal'},
+]
+df = pd.DataFrame(contributions)
+# Display the table using st.table
+st.markdown(df.style.hide(axis="index").to_html(), unsafe_allow_html=True)
+
+
