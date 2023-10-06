@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-'### Spotify Recommendation System' 
+'# Spotify Recommendation Algorithm' 
 
 '## Introduction/Background:' #A quick introduction of your topic and mostly literature review of what has been done in this area. 
 'Finding new music is something that everyone struggles with. We aim to quell the struggle using machine learning to suggest songs similar to user taste, by analyzing existent songs on Spotify according to their features of danceability, energy, and others.'
