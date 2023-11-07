@@ -22,6 +22,14 @@ st.set_page_config(
 '## Potential Results and Discussion:' #Discuss about what type of quantitative metrics your team plan to use for the project (i.e. ML Metrics).
 'Since we know the true cluster assignments of the songs based on their data and genres, we will use the scikit.metrics module to implement Rand Index as our evaluation metric.'
 'This ignores permutations and requires knowledge of ground truth classes, which we have in this case, given the song data and genres.'
+'## Metrics:' # Metrics for how to see accuracy of recommendation system.
+'To see how accurate our model is and whether people are getting the correct recommendations, we must have a set of metrics.'
+'We will seperate the metrics into multiple types of evaluations.'
+'The first type is offline evaluation. The offline testing procedure has two strategies - Train-Test Split and Cross-Validation.'
+'In our first model we will be using Train-Test split as it is more simple. The dataset is split randomly in to 70% - 80% for training and the rest for testing. Then we purely train the model on the training set, picking random songs and recommending k songs similar to that song. This is compared to our manual selection of k songs similar to the original song. Then the trained model is used to predict recommendations for the songs in the test set, and its predictions are compared against the actual songs to evaluate performance metrics such as precision. Precision measures the proportion of recommmended songs in the top-k set that are relevant. We determine how many of the k songs in our opinion is similar to the ones recommended by our model. We then calculate the fraction of these matches over k. A high precision value means that when the system presents k items a large portion of these items are typically relevant to the user, indicating the system is successful in filtering out irrelevant items from the recommendation list. We are not considering recall, as there are many more than 5 songs that could be recommended for every song and at some point it is based on subjective taste.'
+'For our second model, we will be using a more robust form of train-test split known as Cross-Validation. To do so, we will need to partition the dataset into k equal folds. We will select one fold as the test, and the rest is the training. Validate the model in the test folds using precision at k for each iteration. After Cross-Validation iterates across k folds, aggregate the performance to get a compelete view of the models performance. '
+'Another type of evaluation is the conversion rate. The conversion rate will track the proporition of recommendations that lead to the user either adding the song to their liked songs/playlist or simply streaming the song for a measured time.'
+'We will use the conversion rate for A/B Testing. A/B testing involves sowing recommendations from the new model to one group of users (test group) and recommendations from the current model to another (control) group. The conversion rate will analyze real world user behavior, and compare it to the control group to help improve the model.'
 
 '## Gantt Chart'
 
@@ -31,11 +39,11 @@ st.markdown('[Open Chart](https://docs.google.com/spreadsheets/d/128ocUWtq5-0vj9
 
 # Create a list of dictionaries with each member's name and their contribution
 contributions = [
-    {'Name': 'Adhish Rajan', 'Contribution': 'Creating Gantt Chart and identifying methods/algorithms'},
-    {'Name': 'Michael Osmolovskiy', 'Contribution': 'Creating Github repository, finding dataset, and writing introduction, problem definition, methods, and identifying metrics'},
-    {'Name': 'Abhinav', 'Contribution': 'Creating presentation slides for video and recording video proposal'},
-    {'Name': 'Arin Khanna', 'Contribution': 'Creating Gantt Chart'},
-    {'Name': 'Vedesh Yadlapalli', 'Contribution': 'Researching and identifying the problem being solved, writing proposal, finding peer-reviewed articles'},
+    {'Name': 'Adhish Rajan', 'Contribution': 'Identifying methods/algorithms, Agglomerative Clustering Model'},
+    {'Name': 'Michael Osmolovskiy', 'Contribution': 'Creating Github repository, finding dataset, and writing introduction, problem definition, methods, and identifying metrics, Data Visualization'},
+    {'Name': 'Abhinav Vishnuvajhala', 'Contribution': 'Creating presentation slides for video and recording video proposal, Website Beefing, Metrics'},
+    {'Name': 'Arin Khanna', 'Contribution': 'Creating Gantt Chart, Website, Beefing, Creating Metrics for models'},
+    {'Name': 'Vedesh Yadlapalli', 'Contribution': 'Researching and identifying the problem being solved, writing proposal, finding peer-reviewed articles, Cosine Similarity Model'},
 ]
 df = pd.DataFrame(contributions)
 # Display the table using st.table
