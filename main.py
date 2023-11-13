@@ -13,7 +13,7 @@ st.set_page_config(
 'Currently, there has been lots of research into the Spotify Recommendation Algorithm and improving it and currently a lot of research is being done in regards to collaborative filtering and natural language processing to further optimize the song recommendations [1, 2, 3].'
 'To accomplish this, we plan on using a dataset containing information about thousands of songs on spotify of various genres, in order to find similar traits amongst certain songs'
 '## Problem Definition: '
-'Many people enjoy listening to music, however they get bored of listening to the same songs over and over again. We aim to solve this problem by recommending songs to users based on their preferences.'
+'Music is apart of almost everyones life. But often times, we get bored of listening to the same songs over and over again. One of the most difficult tasks if finding new songs to listen to. So, we want to solve this problem by creating a song recommendation model for music enthusiasts to find brand new music.'
 'Most people do not know how to find new music, they only know what mood or genre they want to listen to. This project fixes that need by simply asking the user for certain baseline preferences, and recommending the right music accordingly.'
 '## Data Collection: '
 'We will be using a [Kaggle dataset](https://www.kaggle.com/datasets/mrmorj/dataset-of-songs-in-spotify/data) of Spotify songs and playlists which has data on each song\'s metrics according to its danceability, energy, speechiness, instrumentalness, and more [4].'
