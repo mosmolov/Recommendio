@@ -47,7 +47,6 @@ with col2:
 with col3: 
     st.image('images/danceability_valence.png')
 '## Methods:' # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
-'## Methods:' # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
 'First, we use scikit to implement a cosine similarity model to quantify the similarity between different songs. In theory, this means representing each song as a vector in 5D space (each dimension is a feature of the song)'
 'The next step is to normalize each vector to a length of 1, so that the similarity measurement is unrelated to the actual vector\'s length.'
 'Lastly, we use the cosine similarity formula to find the angle (similarity) between two different vectors.'
