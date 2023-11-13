@@ -124,8 +124,37 @@ st.code(code, language='python')
 
 'The clustering results based on the Silhouette Score, Davies-Bouldin Index, and Calinski-Harabasz Index suggest that the choice of 5250 clusters offers a good balance between cohesion and separation within clusters. While the Silhouette Score remains fairly consistent across different cluster sizes, the Davies-Bouldin Index and Calinski-Harabasz Index show slight improvements with a cluster size of 5250. These metrics collectively indicate that the clustering quality is moderate, with room for further optimization. It\'s important to note that the choice of the number of clusters should also consider the practicality of song recommendations and user preferences. To enhance clustering quality, we can explore alternative clustering algorithms, feature engineering, or different dimensionality reduction techniques.'
 
+'Finally, we wanted to keep a consistent metric between the two models so we used intra similarity list for this model as well. Similar to what we did for the cosine simialrity, we calculated the pair-wise similarity between each song in the recommendation list and took the average of these to see the overall intra-list similarity score.'
+'The code is as follows:'
+code = '''def calculate_intra_list_similarity(recommendations, spotify_df, standard_scaler, pca):
+    total_distance = 0
+    total_comparisons = 0
+
+    for i in range(len(recommendations) - 1):
+        for j in range(i + 1, len(recommendations)):
+            song1_name = recommendations[i]
+            song2_name = recommendations[j]
+
+            # Extract features for both songs
+            song1_features = spotify_df[spotify_df['song_name'] == song1_name].drop(columns=['song_name', 'cluster']).iloc[0]
+            song2_features = spotify_df[spotify_df['song_name'] == song2_name].drop(columns=['song_name', 'cluster']).iloc[0]
+
+            # Preprocess features
+            preprocessed_song1 = preprocess_song(song1_features, standard_scaler, pca)
+            preprocessed_song2 = preprocess_song(song2_features, standard_scaler, pca)
+
+            # Calculate Euclidean distance
+            distance = np.linalg.norm(preprocessed_song1 - preprocessed_song2)
+            total_distance += distance
+            total_comparisons += 1
+
+    return total_distance / total_comparisons if total_comparisons > 0 else 0'''
+st.code(code, language='python')
+'From calculating the intra-list similarity score for the recommendations for \'XO Tour Llif3\' by Lil Uzi Vert, we get an intra-list similarity score of 0.07287909464867108, which shows that overall the recommendations are not similar to each other.'
+
+
 '## Results:'
-'Given these metrics, '
+'Given these metrics, we were able to analyze that Cosine Similarity is signifcantly more accurate in recommending a similar song to one given than the Agglomerative Clustering model.'
 
 '## Gantt Chart'
 
