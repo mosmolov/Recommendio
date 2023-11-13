@@ -47,7 +47,10 @@ with col2:
 with col3: 
     st.image('images/danceability_valence.png')
 '## Methods:' # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
-'First, we use scikit to implement a cosine similarity model to quantify the similarity between different songs. In theory, this means representing each song as a vector in 5D space (each dimension is a feature of the song)'
+'First, we use scikit to implement a cosine similarity model to quantify the similarity between different songs. In theory, this means representing each song as a vector in 5D space (each dimension is a feature of the song).'
+
+''
+
 'The next step is to normalize each vector to a length of 1, so that the similarity measurement is unrelated to the actual vector\'s length.'
 'Lastly, we use the cosine similarity formula to find the angle (similarity) between two different vectors.'
 #INSERT IMAGE 
@@ -73,14 +76,16 @@ with col5:
 with col6:
     st.image('images/silhouettescores.png')
 '## Metrics:' # Metrics for how to see accuracy of recommendation system.
-'To see how accurate our model is and whether people are getting the correct recommendations, we must have a set of metrics.'
-'We will seperate the metrics into multiple types of evaluations.'
-'The first type is offline evaluation. The offline testing procedure has two strategies - Train-Test Split and Cross-Validation.'
-'In our first model we will be using Train-Test split as it is more simple. The dataset is split randomly in to 70% - 80% for training and the rest for testing. Then we purely train the model on the training set, picking random songs and recommending k songs similar to that song. This is compared to our manual selection of k songs similar to the original song. Then the trained model is used to predict recommendations for the songs in the test set, and its predictions are compared against the actual songs to evaluate performance metrics such as precision. Precision measures the proportion of recommmended songs in the top-k set that are relevant. We determine how many of the k songs in our opinion is similar to the ones recommended by our model. We then calculate the fraction of these matches over k. A high precision value means that when the system presents k items a large portion of these items are typically relevant to the user, indicating the system is successful in filtering out irrelevant items from the recommendation list. We are not considering recall, as there are many more than 5 songs that could be recommended for every song and at some point it is based on subjective taste.'
-'For our second model, we will be using a more robust form of train-test split known as Cross-Validation. To do so, we will need to partition the dataset into k equal folds. We will select one fold as the test, and the rest is the training. Validate the model in the test folds using precision at k for each iteration. After Cross-Validation iterates across k folds, aggregate the performance to get a compelete view of the models performance. '
-'Another type of evaluation is the conversion rate. The conversion rate will track the proporition of receommendations that lead to the user either adding the song to their liked songs/playlist or simply streaming the song for a measured time.'
-'We will use the conversion rate for A/B Testing. A/B testing involves sowing recommendations from the new model to one group of users (test group) and recommendations from the current model to another (control) group. The conversion rate will analyze real world user behavior, and compare it to the control group to help improve the model.'
+# 'To see how accurate our model is and whether people are getting the correct recommendations, we must have a set of metrics.'
+# 'We will seperate the metrics into multiple types of evaluations.'
+# 'The first type is offline evaluation. The offline testing procedure has two strategies - Train-Test Split and Cross-Validation.'
+# 'In our first model we will be using Train-Test split as it is more simple. The dataset is split randomly in to 70% - 80% for training and the rest for testing. Then we purely train the model on the training set, picking random songs and recommending k songs similar to that song. This is compared to our manual selection of k songs similar to the original song. Then the trained model is used to predict recommendations for the songs in the test set, and its predictions are compared against the actual songs to evaluate performance metrics such as precision. Precision measures the proportion of recommmended songs in the top-k set that are relevant. We determine how many of the k songs in our opinion is similar to the ones recommended by our model. We then calculate the fraction of these matches over k. A high precision value means that when the system presents k items a large portion of these items are typically relevant to the user, indicating the system is successful in filtering out irrelevant items from the recommendation list. We are not considering recall, as there are many more than 5 songs that could be recommended for every song and at some point it is based on subjective taste.'
+# 'For our second model, we will be using a more robust form of train-test split known as Cross-Validation. To do so, we will need to partition the dataset into k equal folds. We will select one fold as the test, and the rest is the training. Validate the model in the test folds using precision at k for each iteration. After Cross-Validation iterates across k folds, aggregate the performance to get a compelete view of the models performance. '
+# 'Another type of evaluation is the conversion rate. The conversion rate will track the proporition of receommendations that lead to the user either adding the song to their liked songs/playlist or simply streaming the song for a measured time.'
+# 'We will use the conversion rate for A/B Testing. A/B testing involves sowing recommendations from the new model to one group of users (test group) and recommendations from the current model to another (control) group. The conversion rate will analyze real world user behavior, and compare it to the control group to help improve the model.'
 
+'To see how accurate our model is and whether people are getting the correct recommendations, we must have a set of metrics.'
+'We will view the accuracy of the two models we created by these metrics. First we will look at cosine similarity.'
 'Evaluating the accuracy of the cosine similarity model is difficult because we do not have user input to compare the recommendations to. However, we can calculate intra-list similarity between the recommended songs to see how similar they are to each other. We can also calculate the average similarity between the recommended songs and the input song to see how similar they are to the input song.'
 'To do this, we calculate the pair-wise similarity between each song in the recommendation list. Then we take the average of these to see the overall intra-list similarity score. This shows us whether the recommendations are similar to each other, and whether the model is consistent in its recommendations.'
 code = '''def calculate_intra_list_similarity(recommendations):
@@ -109,7 +114,49 @@ st.code(code, language='python')
 
 'Now to check consistency, we can get recommendations for the first 10 songs in the dataset, and then average their intra-list similarity scores to get a more conclusive result.'
 'After doing this, we get an average intra-list similarity score of 0.8664253309369923, which shows good consistency amongst recommendations.'
+
+'Next we will look at the accuracy of the agglomerative clustering.'
+'The Silhouette Score is a measure of how similar an object is to its own cluster (cohesion) compared to other clusters (separation). For the cluster size of 5000, the Silhouette Score is approximately 0.3004, indicating a moderate level of cluster quality. It suggests that the songs within each cluster have some degree of similarity, but there is room for improvement. As we increase the number of clusters to 5250, the Silhouette Score remains similar at around 0.3005, signifying a consistent level of clustering quality. This suggests that the choice of 5250 clusters does not significantly impact the cohesion and separation of songs within clusters.'
+
+'The Davies-Bouldin Index is another clustering evaluation metric that measures the average similarity between each cluster and its most similar cluster. A lower index indicates better clustering, with lower values signifying greater separation between clusters. At a cluster size of 5000, the Davies-Bouldin Index is approximately 0.673, suggesting that the clusters are reasonably well-separated, but there is still room for improvement. As the number of clusters increases to 5250, the Davies-Bouldin Index decreases slightly to around 0.657, indicating that the clusters become slightly better separated. This aligns with the Silhouette Score\'s findings.'
+
+'The Calinski-Harabasz Index, which is also referred to as the Variance Ratio Criterion, measures the ratio of between-cluster variance to within-cluster variance. Higher values indicate better clustering, with larger values indicating more compact and well-separated clusters. For a cluster size of 5000, the Calinski-Harabasz Index is approximately 1312.76. This suggests that there is a moderate level of separation between clusters, but it may not be optimal. As we increase the number of clusters to 5250, the Calinski-Harabasz Index also increases to around 1331.70, indicating that the clustering quality improves slightly with more clusters.'
+
+'The clustering results based on the Silhouette Score, Davies-Bouldin Index, and Calinski-Harabasz Index suggest that the choice of 5250 clusters offers a good balance between cohesion and separation within clusters. While the Silhouette Score remains fairly consistent across different cluster sizes, the Davies-Bouldin Index and Calinski-Harabasz Index show slight improvements with a cluster size of 5250. These metrics collectively indicate that the clustering quality is moderate, with room for further optimization. It\'s important to note that the choice of the number of clusters should also consider the practicality of song recommendations and user preferences. To enhance clustering quality, we can explore alternative clustering algorithms, feature engineering, or different dimensionality reduction techniques.'
+
+'Finally, we wanted to keep a consistent metric between the two models so we used intra similarity list for this model as well. Similar to what we did for the cosine simialrity, we calculated the pair-wise similarity between each song in the recommendation list and took the average of these to see the overall intra-list similarity score.'
+'The code is as follows:'
+code = '''def calculate_intra_list_similarity(recommendations, spotify_df, standard_scaler, pca):
+    total_distance = 0
+    total_comparisons = 0
+
+    for i in range(len(recommendations) - 1):
+        for j in range(i + 1, len(recommendations)):
+            song1_name = recommendations[i]
+            song2_name = recommendations[j]
+
+            # Extract features for both songs
+            song1_features = spotify_df[spotify_df['song_name'] == song1_name].drop(columns=['song_name', 'cluster']).iloc[0]
+            song2_features = spotify_df[spotify_df['song_name'] == song2_name].drop(columns=['song_name', 'cluster']).iloc[0]
+
+            # Preprocess features
+            preprocessed_song1 = preprocess_song(song1_features, standard_scaler, pca)
+            preprocessed_song2 = preprocess_song(song2_features, standard_scaler, pca)
+
+            # Calculate Euclidean distance
+            distance = np.linalg.norm(preprocessed_song1 - preprocessed_song2)
+            total_distance += distance
+            total_comparisons += 1
+
+    return total_distance / total_comparisons if total_comparisons > 0 else 0'''
+st.code(code, language='python')
+'From calculating the intra-list similarity score for the recommendations for \'XO Tour Llif3\' by Lil Uzi Vert, we get an intra-list similarity score of 0.07287909464867108, which shows that overall the recommendations are not similar to each other.'
+
+
 '## Results:'
+'Given these metrics, we were able to analyze that Cosine Similarity is signifcantly more accurate in recommending a similar song to one given than the Agglomerative Clustering model. We can conclude this as we have a metric that was used for both models. The intra-list similarity metric is a measure used to evaluate the homogeneity or consistency within a set of items, such as recommendations in a recommendation system. In the context of song recommendations, for instance, it quantifies how similar the recommended songs are to each other. This metric is particularly useful in scenarios where it\'s desirable for the items in a list (like songs, products, articles, etc.) to be similar or related in some way.'
+
+'We found the intra-list similarity for the Cosine Similarity model for the song \'XO Tour Llif3\' by Lil Uzi Vert was 0.8664253309369923, while for the same song the Agglomerative Clustering model had one of 0.07287909464867108.'
 
 '## Gantt Chart'
 
@@ -122,7 +169,7 @@ contributions = [
     {'Name': 'Adhish Rajan', 'Contribution': 'Identifying methods/algorithms, Agglomerative Clustering Model'},
     {'Name': 'Michael Osmolovskiy', 'Contribution': 'Creating Github repository, finding dataset,  writing introduction, problem definition, methods, identifying metrics, Data Visualization'},
     {'Name': 'Abhinav Vishnuvajhala', 'Contribution': 'Creating presentation slides for video and recording video proposal, Website Beefing, Metrics'},
-    {'Name': 'Arin Khanna', 'Contribution': 'Creating Gantt Chart, Website, Beefing, Creating Metrics for models'},
+    {'Name': 'Arin Khanna', 'Contribution': 'Creating Gantt Chart, Website, Beefing, Creating Metrics for models, Analyzing Results'},
     {'Name': 'Vedesh Yadlapalli', 'Contribution': 'Researching and identifying the problem being solved, writing proposal, finding peer-reviewed articles, Cosine Similarity Model'},
 ]
 df = pd.DataFrame(contributions)
