@@ -85,6 +85,13 @@ with col6:
 'For our second model, we will be using a more robust form of train-test split known as Cross-Validation. To do so, we will need to partition the dataset into k equal folds. We will select one fold as the test, and the rest is the training. Validate the model in the test folds using precision at k for each iteration. After Cross-Validation iterates across k folds, aggregate the performance to get a compelete view of the models performance. '
 'Another type of evaluation is the conversion rate. The conversion rate will track the proporition of receommendations that lead to the user either adding the song to their liked songs/playlist or simply streaming the song for a measured time.'
 'We will use the conversion rate for A/B Testing. A/B testing involves sowing recommendations from the new model to one group of users (test group) and recommendations from the current model to another (control) group. The conversion rate will analyze real world user behavior, and compare it to the control group to help improve the model.'
+
+'Evaluating the accuracy of the cosine similarity model is difficult because we do not have user input to compare the recommendations to. However, we can calculate intra-list similarity between the recommended songs to see how similar they are to each other. We can also calculate the average similarity between the recommended songs and the input song to see how similar they are to the input song.'
+'To do this, we calculate the pair-wise similarity between each song in the recommendation list. Then we take the average of these to see the overall intra-list similarity score. This shows us whether the recommendations are similar to each other, and whether the model is consistent in its recommendations.'
+'From calculating the intra-list similarity score for the recommendations for \'XO Tour Llif3\' by Lil Uzi Vert, we get an intra-list similarity score of 0.8214426102366348, which shows that overall the recommendations are similar to each other.'
+
+'Now to check consistency, we can get recommendations for the first 10 songs in the dataset, and then average their intra-list similarity scores to get a more conclusive result.'
+'After doing this, we get an average intra-list similarity score of 0.8664253309369923, which shows good consistency amongst recommendations.'
 '## Results:'
 ''
 
