@@ -154,7 +154,9 @@ st.code(code, language='python')
 
 
 '## Results:'
-'Given these metrics, we were able to analyze that Cosine Similarity is signifcantly more accurate in recommending a similar song to one given than the Agglomerative Clustering model.'
+'Given these metrics, we were able to analyze that Cosine Similarity is signifcantly more accurate in recommending a similar song to one given than the Agglomerative Clustering model. We can conclude this as we have a metric that was used for both models. The intra-list similarity metric is a measure used to evaluate the homogeneity or consistency within a set of items, such as recommendations in a recommendation system. In the context of song recommendations, for instance, it quantifies how similar the recommended songs are to each other. This metric is particularly useful in scenarios where it\'s desirable for the items in a list (like songs, products, articles, etc.) to be similar or related in some way.'
+
+'We found the intra-list similarity for the Cosine Similarity model for the song \'XO Tour Llif3\' by Lil Uzi Vert was 0.8664253309369923, while for the same song the Agglomerative Clustering model had one of 0.07287909464867108.'
 
 '## Gantt Chart'
 
@@ -167,7 +169,7 @@ contributions = [
     {'Name': 'Adhish Rajan', 'Contribution': 'Identifying methods/algorithms, Agglomerative Clustering Model'},
     {'Name': 'Michael Osmolovskiy', 'Contribution': 'Creating Github repository, finding dataset,  writing introduction, problem definition, methods, identifying metrics, Data Visualization'},
     {'Name': 'Abhinav Vishnuvajhala', 'Contribution': 'Creating presentation slides for video and recording video proposal, Website Beefing, Metrics'},
-    {'Name': 'Arin Khanna', 'Contribution': 'Creating Gantt Chart, Website, Beefing, Creating Metrics for models'},
+    {'Name': 'Arin Khanna', 'Contribution': 'Creating Gantt Chart, Website, Beefing, Creating Metrics for models, Analyzing Results'},
     {'Name': 'Vedesh Yadlapalli', 'Contribution': 'Researching and identifying the problem being solved, writing proposal, finding peer-reviewed articles, Cosine Similarity Model'},
 ]
 df = pd.DataFrame(contributions)
