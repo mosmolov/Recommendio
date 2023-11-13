@@ -88,6 +88,28 @@ with col6:
 
 'Evaluating the accuracy of the cosine similarity model is difficult because we do not have user input to compare the recommendations to. However, we can calculate intra-list similarity between the recommended songs to see how similar they are to each other. We can also calculate the average similarity between the recommended songs and the input song to see how similar they are to the input song.'
 'To do this, we calculate the pair-wise similarity between each song in the recommendation list. Then we take the average of these to see the overall intra-list similarity score. This shows us whether the recommendations are similar to each other, and whether the model is consistent in its recommendations.'
+code = '''def calculate_intra_list_similarity(recommendations):
+    # Create a dataframe for the recommended songs and similarity scores
+    recommendations_df = pd.DataFrame({
+        'Song Name': [rec[0] for rec in recommendations],
+        'Similarity Score': [rec[1] for rec in recommendations]
+    })
+    totalSimilarity = 0
+    totalComparisons = 0
+    for i in range(0, len(recommendations) - 1):
+        for j in range(i + 1, len(recommendations)):
+            # check cosine similarity matrix to calculate similarity between two songs
+            song1 = recommendations[i][0]
+            song2 = recommendations[j][0]
+            song1_index = df_unique_songs.index[df_unique_songs['song_name'] == song1].tolist()
+            song2_index = df_unique_songs.index[df_unique_songs['song_name'] == song2].tolist()
+            if song1_index and song2_index and song1_index[0] < len(cosine_sim) and song2_index[0] < len(cosine_sim[song1_index[0]]):
+                if (cosine_sim[song1_index[0]][song2_index[0]]):
+                    totalSimilarity += cosine_sim[song1_index[0]][song2_index[0]]
+                    totalComparisons += 1
+    return totalSimilarity / totalComparisons if totalComparisons > 0 else 0'''
+       
+st.code(code, language='python')
 'From calculating the intra-list similarity score for the recommendations for \'XO Tour Llif3\' by Lil Uzi Vert, we get an intra-list similarity score of 0.8214426102366348, which shows that overall the recommendations are similar to each other.'
 
 'Now to check consistency, we can get recommendations for the first 10 songs in the dataset, and then average their intra-list similarity scores to get a more conclusive result.'
