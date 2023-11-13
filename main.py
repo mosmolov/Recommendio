@@ -17,6 +17,14 @@ st.set_page_config(
 'Most people do not know how to find new music, they only know what mood or genre they want to listen to. This project fixes that need by simply asking the user for certain baseline preferences, and recommending the right music accordingly.'
 '## Data Collection: '
 'We will be using a [Kaggle dataset](https://www.kaggle.com/datasets/mrmorj/dataset-of-songs-in-spotify/data) of Spotify songs and playlists which has data on each song\'s metrics according to its danceability, energy, speechiness, instrumentalness, and more [4].'
+# Read in data
+df = pd.read_csv('genres_v2.csv')
+st.dataframe(df[20:30])
+'Since there are a lot of features, it\'s hard to visualize the data. We will use _____ to reduce the dimensionality of the data and plot it in 2D.'
+
+
+'To identify relevant features, we use a correlation matrix with a heat map to visualize the correlation between the features. We can see that there is a strong correlation between danceability and energy, and a strong negative correlation between acousticness and energy. We will use these features to cluster the songs.'
+st.image('images/heatmap.png', width=500)
 '## Methods:' # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
 'We are going to use scikit learn to implement a bottom-up agglomerative hierarchical clustering algorithm to cluster the songs into groups based on their features. We will then use the clusters to recommend songs to users based on their preferences.'
 'First, we will cluster them by individual features likes danceability and energy, gradually building up the hierarchy until at the top level, we cluster them by genre.'
