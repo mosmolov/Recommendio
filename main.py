@@ -65,9 +65,6 @@ with col3:
 'Now, using these metrics, we specify our Agglomerative Clustering to have the optimal amount of clusters. To facilitate song recommendations, we construct a Nearest Neighbors model, crucial for identifying the nearest cluster to an input song, a key step in the recommendation process.'
 
 'Now, using the optimal number of clusters determined from the silhouette scores, we applied Agglomerative Clustering, a hierarchical clustering that builds nested clusters by splitting them successively. This clustering model will group the songs in our dataset into clusters based on their similarities in the feature space.'
-
-'Next, we define several helper functions: the preprocess_song function processes individual songs by standardizing the features and transforming them using PCA; the find_cluster function predicts which cluster a song belongs to; and the recommend_similar_songs function uses these utilities to recommend songs from the same cluster as a given input song. The recommendation is based on the proximity of songs within the same cluster.'
-
 col4, col5, col6 = st.columns(3)
 with col4:
     st.image('images/CHForClusters.png')
@@ -75,7 +72,6 @@ with col5:
     st.image('images/dbForClusters.png')
 with col6:
     st.image('images/silhouettescores.png')
-'## Potential Results and Discussion:' #Discuss about what type of quantitative metrics your team plan to use for the project (i.e. ML Metrics).
 '## Metrics:' # Metrics for how to see accuracy of recommendation system.
 'To see how accurate our model is and whether people are getting the correct recommendations, we must have a set of metrics.'
 'We will seperate the metrics into multiple types of evaluations.'
@@ -114,8 +110,6 @@ st.code(code, language='python')
 'Now to check consistency, we can get recommendations for the first 10 songs in the dataset, and then average their intra-list similarity scores to get a more conclusive result.'
 'After doing this, we get an average intra-list similarity score of 0.8664253309369923, which shows good consistency amongst recommendations.'
 '## Results:'
-''
-
 
 '## Gantt Chart'
 
