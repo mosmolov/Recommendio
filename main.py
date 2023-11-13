@@ -13,13 +13,24 @@ st.set_page_config(
 'Currently, there has been lots of research into the Spotify Recommendation Algorithm and improving it and currently a lot of research is being done in regards to collaborative filtering and natural language processing to further optimize the song recommendations [1, 2, 3].'
 'To accomplish this, we plan on using a dataset containing information about thousands of songs on spotify of various genres, in order to find similar traits amongst certain songs'
 '## Problem Definition: '
-'Many people enjoy listening to music, however they get bored of listening to the same songs over and over again. We aim to solve this problem by recommending songs to users based on their preferences.'
+'Music is apart of almost everyones life. But often times, we get bored of listening to the same songs over and over again. One of the most difficult tasks if finding new songs to listen to. So, we want to solve this problem by creating a song recommendation model for music enthusiasts to find brand new music.'
 'Most people do not know how to find new music, they only know what mood or genre they want to listen to. This project fixes that need by simply asking the user for certain baseline preferences, and recommending the right music accordingly.'
 '## Data Collection: '
 'We will be using a [Kaggle dataset](https://www.kaggle.com/datasets/mrmorj/dataset-of-songs-in-spotify/data) of Spotify songs and playlists which has data on each song\'s metrics according to its danceability, energy, speechiness, instrumentalness, and more [4].'
 # Read in data
 df = pd.read_csv('genres_v2.csv')
 st.dataframe(df[20:30])
+
+'**Danceability** - Combines tempo, rhythm stability, beat strength, and overall regularity to give a value for how \"danceable\" a song is.'
+'**Energy** - A meeasure of intensity and activity. The more energy the more fast, loud, and noisy.'
+'**Key** - The key of the track.'
+'**Loudness** - How loud the song is in decibels (dB) averaged over the durationo of the song.'
+'**Speechiness** - Detects the presence of spoken words in a track.'
+'**Acousticness** - A confidence measure of the tracks acoustics.'
+'**Instrumentalness** - A predicition of whether a track contains vocals.'
+'**Liveness** - This detects if an audience was present in the recording of the track.'
+'**Valence** - A measure, made by seeing the valence, describing the musical positiveness conveyed by a track.'
+'**Tempo** - The overall tempo of a track in beats per minute (BPM) averaged over time.'
 'Since there are a lot of features, it\'s hard to visualize the data. We will use _____ to reduce the dimensionality of the data and plot it in 2D.'
 
 
@@ -36,8 +47,14 @@ with col2:
 with col3: 
     st.image('images/danceability_valence.png')
 '## Methods:' # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
+'## Methods:' # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
+'First, we use scikit to implement a cosine similarity model to quantify the similarity between different songs. In theory, this means representing each song as a vector in 5D space (each dimension is a feature of the song)'
+'The next step is to normalize each vector to a length of 1, so that the similarity measurement is unrelated to the actual vector\'s length.'
+'Lastly, we use the cosine similarity formula to find the angle (similarity) between two different vectors.'
+#INSERT IMAGE 
 'We are going to use scikit learn to implement a bottom-up agglomerative hierarchical clustering algorithm to cluster the songs into groups based on their features. We will then use the clusters to recommend songs to users based on their preferences.'
 'First, we will cluster them by individual features likes danceability and energy, gradually building up the hierarchy until at the top level, we cluster them by genre.'
+#INSERT IMAGE
 '## Potential Results and Discussion:' #Discuss about what type of quantitative metrics your team plan to use for the project (i.e. ML Metrics).
 'Since we know the true cluster assignments of the songs based on their data and genres, we will use the scikit.metrics module to implement Rand Index as our evaluation metric.'
 'This ignores permutations and requires knowledge of ground truth classes, which we have in this case, given the song data and genres.'
@@ -76,5 +93,13 @@ st.markdown('[1] Jie and Han. [A music recommendation algorithm based on cluster
 st.markdown('[2] Pérez-Marcos and López. [Recommender System Based on Collaborative Filtering for Spotify"s Users](https://www.researchgate.net/publication/318511102_Recommender_System_Based_on_Collaborative_Filtering_for_Spotify"s_Users)')
 st.markdown('[3] Schedl, Zamani, Chen, Deldjoo, and Elahi. [Current Challenges and Visions in Music Recommender Systems Research](https://browse.arxiv.org/pdf/1710.03208.pdf)')
 st.markdown('[4] Samoshyn. [Dataset of songs in Spotify](https://www.kaggle.com/datasets/mrmorj/dataset-of-songs-in-spotify/data)')
+
+
+
+
+
+
+
+
 
 
