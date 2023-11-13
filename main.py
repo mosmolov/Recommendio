@@ -26,13 +26,15 @@ st.dataframe(df[20:30])
 'To identify relevant features, we use a correlation matrix with a heat map to visualize the correlation between the features. We can see that there is a strong correlation between danceability and energy, and a strong negative correlation between acousticness and energy. We will use these features to cluster the songs.'
 st.image('images/heatmap.png', width=500)
 
-'From the heatmap, we can see that there is a strong positive correlation between energy and loudness, as well as a strong negative correlation between energy and acousticness'
+'From the heatmap, we can see that there is a strong positive correlation between energy and loudness, as well as a strong negative correlation between energy and acousticness. There is also some correlation between danceability and valence.'
 'We can further visualize this by creating linear regression plots for each pair of features.'
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 with col1:
     st.image('images/energy_acousticness.png')
 with col2:
     st.image('images/energy_loudness.png')
+with col3: 
+    st.image('images/danceability_valence.png')
 '## Methods:' # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
 'We are going to use scikit learn to implement a bottom-up agglomerative hierarchical clustering algorithm to cluster the songs into groups based on their features. We will then use the clusters to recommend songs to users based on their preferences.'
 'First, we will cluster them by individual features likes danceability and energy, gradually building up the hierarchy until at the top level, we cluster them by genre.'
