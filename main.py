@@ -31,7 +31,7 @@ st.dataframe(df[20:30])
 '**Liveness** - This detects if an audience was present in the recording of the track.'
 '**Valence** - A measure, made by seeing the valence, describing the musical positiveness conveyed by a track.'
 '**Tempo** - The overall tempo of a track in beats per minute (BPM) averaged over time.'
-'Since there are a lot of features, it\'s hard to visualize the data. We will use _____ to reduce the dimensionality of the data and plot it in 2D.'
+'Since there are a lot of features, it\'s hard to visualize the data. We will use PCA to reduce the dimensionality of the data and plot it in 2D.'
 
 
 'To identify relevant features, we use a correlation matrix with a heat map to visualize the correlation between the features. We can see that there is a strong correlation between danceability and energy, and a strong negative correlation between acousticness and energy. We will use these features to cluster the songs.'
@@ -53,11 +53,30 @@ with col3:
 'Lastly, we use the cosine similarity formula to find the angle (similarity) between two different vectors.'
 #INSERT IMAGE 
 'We are going to use scikit learn to implement a bottom-up agglomerative hierarchical clustering algorithm to cluster the songs into groups based on their features. We will then use the clusters to recommend songs to users based on their preferences.'
-'First, we will cluster them by individual features likes danceability and energy, gradually building up the hierarchy until at the top level, we cluster them by genre.'
-#INSERT IMAGE
+'First, we load the dataset using Pandas. We perform initial data processing, which involves removing columns that are not necessary for the clustering process. This step is crucial for focusing on relevant features that contribute to understanding song similarities.'
+
+'Next, we standardize the features using a StandardScaler. This essentially rescales the features so that they have a mean of 0 and a standard deviation of 1, which is important because it normalizes the range of independent variables or features of the data. This makes sure that each feature contributes equally to the analysis and prevents features with larger scales from dominating the distance calculations used in clustering.'
+
+'After standardization, we used PCA for dimensionality reduction. Since we have 10 features, we can use PCA to reduce the dimensionality of our dataset to 3 dimensions and narrow down the optimal directions to project and evaluate the features on. The goal of this is to retain 95% of the variance, keeping the most important features. This step helps us for clustering, because we reduce noise and computation time.'
+
+'Next, we conduct clustering analysis to gain an understanding of the optimal number of clusters (k) for the dataset. To identify the ideal value of k, we explore a range of potential cluster sizes, spanning from 5000 to 6000 clusters. For each candidate cluster size, we apply Agglomerative Clustering to the PCA-transformed data. The Silhouette Score, Davies-Bouldin Index, and Calinski-Harabasz Index are then calculated and recorded. These metrics serve as quantitative measures of clustering quality:'
+
+'To visualize the performance of the clustering algorithm, we create three plots to display the three different scores with varying clusters k.'
+
+'Now, using these metrics, we specify our Agglomerative Clustering to have the optimal amount of clusters. To facilitate song recommendations, we construct a Nearest Neighbors model, crucial for identifying the nearest cluster to an input song, a key step in the recommendation process.'
+
+'Now, using the optimal number of clusters determined from the silhouette scores, we applied Agglomerative Clustering, a hierarchical clustering that builds nested clusters by splitting them successively. This clustering model will group the songs in our dataset into clusters based on their similarities in the feature space.'
+
+'Next, we define several helper functions: the preprocess_song function processes individual songs by standardizing the features and transforming them using PCA; the find_cluster function predicts which cluster a song belongs to; and the recommend_similar_songs function uses these utilities to recommend songs from the same cluster as a given input song. The recommendation is based on the proximity of songs within the same cluster.'
+
+col4, col5, col6 = st.columns(3)
+with col4:
+    st.image('images/CHForClusters.png')
+with col5:
+    st.image('images/dbForClusters.png')
+with col6:
+    st.image('images/silhouettescores.png')
 '## Potential Results and Discussion:' #Discuss about what type of quantitative metrics your team plan to use for the project (i.e. ML Metrics).
-'Since we know the true cluster assignments of the songs based on their data and genres, we will use the scikit.metrics module to implement Rand Index as our evaluation metric.'
-'This ignores permutations and requires knowledge of ground truth classes, which we have in this case, given the song data and genres.'
 '## Metrics:' # Metrics for how to see accuracy of recommendation system.
 'To see how accurate our model is and whether people are getting the correct recommendations, we must have a set of metrics.'
 'We will seperate the metrics into multiple types of evaluations.'
@@ -66,6 +85,13 @@ with col3:
 'For our second model, we will be using a more robust form of train-test split known as Cross-Validation. To do so, we will need to partition the dataset into k equal folds. We will select one fold as the test, and the rest is the training. Validate the model in the test folds using precision at k for each iteration. After Cross-Validation iterates across k folds, aggregate the performance to get a compelete view of the models performance. '
 'Another type of evaluation is the conversion rate. The conversion rate will track the proporition of receommendations that lead to the user either adding the song to their liked songs/playlist or simply streaming the song for a measured time.'
 'We will use the conversion rate for A/B Testing. A/B testing involves sowing recommendations from the new model to one group of users (test group) and recommendations from the current model to another (control) group. The conversion rate will analyze real world user behavior, and compare it to the control group to help improve the model.'
+
+'Evaluating the accuracy of the cosine similarity model is difficult because we do not have user input to compare the recommendations to. However, we can calculate intra-list similarity between the recommended songs to see how similar they are to each other. We can also calculate the average similarity between the recommended songs and the input song to see how similar they are to the input song.'
+'To do this, we calculate the pair-wise similarity between each song in the recommendation list. Then we take the average of these to see the overall intra-list similarity score. This shows us whether the recommendations are similar to each other, and whether the model is consistent in its recommendations.'
+'From calculating the intra-list similarity score for the recommendations for \'XO Tour Llif3\' by Lil Uzi Vert, we get an intra-list similarity score of 0.8214426102366348, which shows that overall the recommendations are similar to each other.'
+
+'Now to check consistency, we can get recommendations for the first 10 songs in the dataset, and then average their intra-list similarity scores to get a more conclusive result.'
+'After doing this, we get an average intra-list similarity score of 0.8664253309369923, which shows good consistency amongst recommendations.'
 '## Results:'
 ''
 
