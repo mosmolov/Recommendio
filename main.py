@@ -24,7 +24,7 @@ st.dataframe(df[20:30])
 '**Danceability** - Combines tempo, rhythm stability, beat strength, and overall regularity to give a value for how \"danceable\" a song is.'
 '**Energy** - A meeasure of intensity and activity. The more energy the more fast, loud, and noisy.'
 '**Key** - The key of the track.'
-'**Loudness** - How loud the song is in decibels (dB) averaged over the durationo of the song.'
+'**Loudness** - How loud the song is in decibels (dB) averaged over the duration of the song.'
 '**Speechiness** - Detects the presence of spoken words in a track.'
 '**Acousticness** - A confidence measure of the tracks acoustics.'
 '**Instrumentalness** - A predicition of whether a track contains vocals.'
