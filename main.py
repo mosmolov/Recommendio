@@ -150,7 +150,9 @@ code = '''def calculate_intra_list_similarity(recommendations, spotify_df, stand
 
     return total_distance / total_comparisons if total_comparisons > 0 else 0'''
 st.code(code, language='python')
-'From calculating the intra-list similarity score for the recommendations for \'XO Tour Llif3\' by Lil Uzi Vert, we get an intra-list similarity score of 0.07287909464867108, which shows that overall the recommendations are not similar to each other.'
+'From calculating the intra-list similarity score for the recommendations for \'XO Tour Llif3\' by Lil Uzi Vert, we get an intra-list similarity score of 0.07287909464867108, which shows that overall the recommendations are not similar to each other. Here is a visualization to see what happened:'
+st.image('images/intraViz.tiff', width=500)
+
 
 
 '## Results:'
