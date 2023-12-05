@@ -47,6 +47,8 @@ with col2:
 with col3: 
     st.image('images/danceability_valence.png')
 
+'For all of these models we needed to do data preprocessing. We had to remove some features from the models as they were not in scope with what we were trying to do. For KNN specifically, we also took into account the genre, something we did not do for the other models. This may have contributed to KNN\'s success.'
+
 '## Methods:' # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
 'First, we use scikit to implement a cosine similarity model to quantify the similarity between different songs. In theory, this means representing each song as a vector in 5D space (each dimension is a feature of the song).'
 
@@ -174,6 +176,7 @@ st.image('images/comparison.png', width=500)
 
 'We found the intra-list similarity for the Cosine Similarity model for the song \'XO Tour Llif3\' by Lil Uzi Vert was 0.8664253309369923, while for the same song the Agglomerative Clustering model had one of 0.07287909464867108.'
 
+'After comparing this with the new KNN model, we found an intra-similarity of 0.9999999988248943, thus making it the most accurate model for giving song recommendations.'
 '## Gantt Chart'
 
 st.markdown('[Open Chart](https://docs.google.com/spreadsheets/d/128ocUWtq5-0vj90tC-5R_a0zHKy6ZOHwDNsW2s9xa2U/edit?usp=sharing)')
