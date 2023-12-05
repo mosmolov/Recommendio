@@ -46,6 +46,7 @@ with col2:
     st.image('images/energy_loudness.png')
 with col3: 
     st.image('images/danceability_valence.png')
+
 '## Methods:' # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
 'First, we use scikit to implement a cosine similarity model to quantify the similarity between different songs. In theory, this means representing each song as a vector in 5D space (each dimension is a feature of the song).'
 
@@ -75,6 +76,13 @@ with col5:
     st.image('images/dbForClusters.png')
 with col6:
     st.image('images/silhouettescores.png')
+
+'Another model we used was K-Nearest Neighbors (KNN). KNN is an algorithm for classification and regression tasks. In the context of our recommender, we used KNN as follows. First, we must chose a K, which represents the number of nearest neighbors to consider when making a prediction. From there find its neighbors, in our specific example we have 6 neighbors. We then measured the distance from K to each of its neighbors. We did this with different typed of distance algorithms such as Euclidean distance, Manhattan distance, Cosine distance, and Minkowski distance. We then compared these distances to see overlap in recommendations and see which distance algorithms produced similar results and which ones are uniquely identifying recommendations. Below is how we saw the overlap.'
+st.image('images/jawn.png', width=500)
+
+'The final model we used was DBScan. However, as we tried to implement it in the context of our recommender, there was too much noise so it was not a viable model. We tried to tweak the hyperparameters to minimize noise but the noise still existed as we kept testing and thus we could not use it. '
+
+
 '## Metrics:' # Metrics for how to see accuracy of recommendation system.
 # 'To see how accurate our model is and whether people are getting the correct recommendations, we must have a set of metrics.'
 # 'We will seperate the metrics into multiple types of evaluations.'
@@ -89,7 +97,6 @@ with col6:
 'Evaluating the accuracy of the cosine similarity model is difficult because we do not have user input to compare the recommendations to. However, we can calculate intra-list similarity between the recommended songs to see how similar they are to each other. We can also calculate the average similarity between the recommended songs and the input song to see how similar they are to the input song.'
 'To do this, we calculate the pair-wise similarity between each song in the recommendation list. Then we take the average of these to see the overall intra-list similarity score. This shows us whether the recommendations are similar to each other, and whether the model is consistent in its recommendations.'
 code = '''def calculate_intra_list_similarity(recommendations):
-    # Create a dataframe for the recommended songs and similarity scores
     recommendations_df = pd.DataFrame({
         'Song Name': [rec[0] for rec in recommendations],
         'Similarity Score': [rec[1] for rec in recommendations]
@@ -98,7 +105,6 @@ code = '''def calculate_intra_list_similarity(recommendations):
     totalComparisons = 0
     for i in range(0, len(recommendations) - 1):
         for j in range(i + 1, len(recommendations)):
-            # check cosine similarity matrix to calculate similarity between two songs
             song1 = recommendations[i][0]
             song2 = recommendations[j][0]
             song1_index = df_unique_songs.index[df_unique_songs['song_name'] == song1].tolist()
@@ -135,25 +141,33 @@ code = '''def calculate_intra_list_similarity(recommendations, spotify_df, stand
             song1_name = recommendations[i]
             song2_name = recommendations[j]
 
-            # Extract features for both songs
             song1_features = spotify_df[spotify_df['song_name'] == song1_name].drop(columns=['song_name', 'cluster']).iloc[0]
             song2_features = spotify_df[spotify_df['song_name'] == song2_name].drop(columns=['song_name', 'cluster']).iloc[0]
 
-            # Preprocess features
             preprocessed_song1 = preprocess_song(song1_features, standard_scaler, pca)
             preprocessed_song2 = preprocess_song(song2_features, standard_scaler, pca)
 
-            # Calculate Euclidean distance
             distance = np.linalg.norm(preprocessed_song1 - preprocessed_song2)
             total_distance += distance
             total_comparisons += 1
 
     return total_distance / total_comparisons if total_comparisons > 0 else 0'''
 st.code(code, language='python')
-'From calculating the intra-list similarity score for the recommendations for \'XO Tour Llif3\' by Lil Uzi Vert, we get an intra-list similarity score of 0.07287909464867108, which shows that overall the recommendations are not similar to each other. Here is a visualization to see what happened:'
-st.image('images/intraViz.tiff', width=500)
+'From calculating the intra-list similarity score for the recommendations for \'XO Tour Llif3\' by Lil Uzi Vert, we get an intra-list similarity score of 0.07287909464867108, which shows that overall the recommendations are not similar to each other.'
+# st.image('images/intraViz.tiff', width=500)
 
+'As we continued to implement new models, we still used intra-list similarity to measure the score to see how accurate it was. We did this as its a metric we could use for all of the models to compare them to one another. Here are the three models intra-list similarities:'
+'Agglomerative Clustering'
+st.image('images/aglom.png', width=500)
+'Cosine Similarity'
+st.image('images/cosine.png', width=500)
+'KNN'
+st.image('images/knn.png', width=500)
 
+'We then compared these three intra-list similarities with this bar graph:'
+st.image('images/comparison.png', width=500)
+
+'As this comparison shows, our best model was KNN, then Cosine Similarity, and finally Agglomerative Clustering.'
 
 '## Results:'
 'Given these metrics, we were able to analyze that Cosine Similarity is signifcantly more accurate in recommending a similar song to one given than the Agglomerative Clustering model. We can conclude this as we have a metric that was used for both models. The intra-list similarity metric is a measure used to evaluate the homogeneity or consistency within a set of items, such as recommendations in a recommendation system. In the context of song recommendations, for instance, it quantifies how similar the recommended songs are to each other. This metric is particularly useful in scenarios where it\'s desirable for the items in a list (like songs, products, articles, etc.) to be similar or related in some way.'
@@ -168,11 +182,11 @@ st.markdown('[Open Chart](https://docs.google.com/spreadsheets/d/128ocUWtq5-0vj9
 
 # Create a list of dictionaries with each member's name and their contribution
 contributions = [
-    {'Name': 'Adhish Rajan', 'Contribution': 'Identifying methods/algorithms, Agglomerative Clustering Model'},
-    {'Name': 'Michael Osmolovskiy', 'Contribution': 'Creating Github repository, finding dataset,  writing introduction, problem definition, methods, identifying metrics, Data Visualization'},
-    {'Name': 'Abhinav Vishnuvajhala', 'Contribution': 'Creating presentation slides for video and recording video proposal, Website Beefing, Metrics'},
-    {'Name': 'Arin Khanna', 'Contribution': 'Creating Gantt Chart, Website, Beefing, Creating Metrics for models, Analyzing Results'},
-    {'Name': 'Vedesh Yadlapalli', 'Contribution': 'Researching and identifying the problem being solved, writing proposal, finding peer-reviewed articles, Cosine Similarity Model'},
+    {'Name': 'Adhish Rajan', 'Contribution': 'Identifying methods/algorithms, Agglomerative Clustering Model, Implemented additional models'},
+    {'Name': 'Michael Osmolovskiy', 'Contribution': 'Creating Github repository, finding dataset,  writing introduction, problem definition, methods, identifying metrics, Data Visualization, Implemented additional models'},
+    {'Name': 'Abhinav Vishnuvajhala', 'Contribution': 'Creating presentation slides for video and recording video proposal, Website Beefing, Metrics, Presentation, Video'},
+    {'Name': 'Arin Khanna', 'Contribution': 'Creating Gantt Chart, Website, Beefing, Creating Metrics for models, Analyzing Results, Implement visualizations in website'},
+    {'Name': 'Vedesh Yadlapalli', 'Contribution': 'Researching and identifying the problem being solved, writing proposal, finding peer-reviewed articles, Cosine Similarity Model, Metrics visualizations'},
 ]
 df = pd.DataFrame(contributions)
 # Display the table using st.table
