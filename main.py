@@ -5,17 +5,32 @@ st.set_page_config(
         page_icon="musical_note",
         layout="wide",
     )
+# add sidebar with clickable table of contents to navigate to different headers
+# make sidebar contents clickable
+st.sidebar.header('Table of Contents')
+st.sidebar.markdown(f"<a href='#introduction-background' style='text-decoration: none; color: #90EE90;'><h2>Introduction/Background</h2></a>", unsafe_allow_html=True)
+#st.sidebar.markdown(f"<hr style='border: 1px solid white; margin: 1px;'>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<a href='#problem-definition' style='text-decoration: none; color: #90EE90;'><h2>Problem Definition</h2></a>", unsafe_allow_html=True)
+# st.sidebar.markdown(f"<hr style='border: 1px solid white; margin: 1px;'>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<a href='#dataset' style='text-decoration: none; color: #90EE90;'><h2>Dataset</h2></a>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<a href='#methods' style='text-decoration: none; color: #90EE90;'><h2>Methods</h2></a>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<a href='#metrics' style='text-decoration: none; color: #90EE90;'><h2>Metrics</h2></a>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<a href='#results' style='text-decoration: none; color: #90EE90;'><h2>Results</h2></a>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<a href='#gantt-chart' style='text-decoration: none; color: #90EE90;'><h2>Gantt Chart</h2></a>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<a href='#contribution-table' style='text-decoration: none; color: #90EE90;'><h2>Contribution Table</h2></a>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<a href='#references' style='text-decoration: none; color: #90EE90;'><h2>References</h2></a>", unsafe_allow_html=True)
+
 '# Spotify Recommendation Algorithm' 
 
-'## Introduction/Background:' #A quick introduction of your topic and mostly literature review of what has been done in this area. 
+st.header("Introduction/Background") #A quick introduction of your topic and mostly literature review of what has been done in this area. 
 'Finding new music is something that everyone struggles with. We aim to quell the struggle using machine learning to suggest songs similar to user taste, by analyzing existent songs on Spotify according to their features of danceability, energy, and others.'
 'By doing this, we will be able to recommend songs to users according to several filters that they select, which will be according to mood, vocals, genre, and others.'
 'Currently, there has been lots of research into the Spotify Recommendation Algorithm and improving it and currently a lot of research is being done in regards to collaborative filtering and natural language processing to further optimize the song recommendations [1, 2, 3].'
 'To accomplish this, we plan on using a dataset containing information about thousands of songs on spotify of various genres, in order to find similar traits amongst certain songs'
-'## Problem Definition: '
+st.header("Problem Definition")
 'Music is apart of almost everyones life. But often times, we get bored of listening to the same songs over and over again. One of the most difficult tasks if finding new songs to listen to. So, we want to solve this problem by creating a song recommendation model for music enthusiasts to find brand new music.'
 'Most people do not know how to find new music, they only know what mood or genre they want to listen to. This project fixes that need by simply asking the user for certain baseline preferences, and recommending the right music accordingly.'
-'## Data Collection: '
+st.header("Dataset")
 'We will be using a [Kaggle dataset](https://www.kaggle.com/datasets/mrmorj/dataset-of-songs-in-spotify/data) of Spotify songs and playlists which has data on each song\'s metrics according to its danceability, energy, speechiness, instrumentalness, and more [4].'
 # Read in data
 df = pd.read_csv('genres_v2.csv')
@@ -49,7 +64,7 @@ with col3:
 
 'For all of these models we needed to do data preprocessing. We had to remove some features from the models as they were not in scope with what we were trying to do. For KNN specifically, we also took into account the genre, something we did not do for the other models. This may have contributed to KNN\'s success.'
 
-'## Methods:' # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
+st.header("Methods") # What algorithms or methods are you going to use to solve the problems. (Note: Use existing packages/libraries)'
 'First, we use scikit to implement a cosine similarity model to quantify the similarity between different songs. In theory, this means representing each song as a vector in 5D space (each dimension is a feature of the song).'
 
 ''
@@ -85,7 +100,7 @@ st.image('images/jawn.png', width=500)
 'The final model we used was DBScan. However, as we tried to implement it in the context of our recommender, there was too much noise so it was not a viable model. We tried to tweak the hyperparameters to minimize noise but the noise still existed as we kept testing and thus we could not use it. '
 
 
-'## Metrics:' # Metrics for how to see accuracy of recommendation system.
+st.header("Metrics") # Metrics for how to see accuracy of recommendation system.
 # 'To see how accurate our model is and whether people are getting the correct recommendations, we must have a set of metrics.'
 # 'We will seperate the metrics into multiple types of evaluations.'
 # 'The first type is offline evaluation. The offline testing procedure has two strategies - Train-Test Split and Cross-Validation.'
@@ -171,18 +186,17 @@ st.image('images/comparison.png', width=500)
 
 'As this comparison shows, our best model was KNN, then Cosine Similarity, and finally Agglomerative Clustering.'
 
-'## Results:'
+st.header("Results")
 'Given these metrics, we were able to analyze that Cosine Similarity is signifcantly more accurate in recommending a similar song to one given than the Agglomerative Clustering model. We can conclude this as we have a metric that was used for both models. The intra-list similarity metric is a measure used to evaluate the homogeneity or consistency within a set of items, such as recommendations in a recommendation system. In the context of song recommendations, for instance, it quantifies how similar the recommended songs are to each other. This metric is particularly useful in scenarios where it\'s desirable for the items in a list (like songs, products, articles, etc.) to be similar or related in some way.'
 
 'We found the intra-list similarity for the Cosine Similarity model for the song \'XO Tour Llif3\' by Lil Uzi Vert was 0.8664253309369923, while for the same song the Agglomerative Clustering model had one of 0.07287909464867108.'
 
 'After comparing this with the new KNN model, we found an intra-similarity of 0.9999999988248943, thus making it the most accurate model for giving song recommendations.'
-'## Gantt Chart'
 
+st.header("Gantt Chart")
 st.markdown('[Open Chart](https://docs.google.com/spreadsheets/d/128ocUWtq5-0vj90tC-5R_a0zHKy6ZOHwDNsW2s9xa2U/edit?usp=sharing)')
 
-'## Contribution Table'
-
+st.header("Contribution Table")
 # Create a list of dictionaries with each member's name and their contribution
 contributions = [
     {'Name': 'Adhish Rajan', 'Contribution': 'Identifying methods/algorithms, Agglomerative Clustering Model, Implemented additional models'},
@@ -195,7 +209,7 @@ df = pd.DataFrame(contributions)
 # Display the table using st.table
 st.markdown(df.style.hide(axis="index").to_html(), unsafe_allow_html=True)
 
-'## References'
+st.header("References")
 st.markdown('[1] Jie and Han. [A music recommendation algorithm based on clustering and latent factor model.](https://www.matec-conferences.org/articles/matecconf/pdf/2020/05/matecconf_cscns2020_03009.pdf)')
 st.markdown('[2] Pérez-Marcos and López. [Recommender System Based on Collaborative Filtering for Spotify"s Users](https://www.researchgate.net/publication/318511102_Recommender_System_Based_on_Collaborative_Filtering_for_Spotify"s_Users)')
 st.markdown('[3] Schedl, Zamani, Chen, Deldjoo, and Elahi. [Current Challenges and Visions in Music Recommender Systems Research](https://browse.arxiv.org/pdf/1710.03208.pdf)')
