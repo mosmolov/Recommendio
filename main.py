@@ -7,7 +7,7 @@ st.set_page_config(
     )
 # add sidebar with clickable table of contents to navigate to different headers
 # make sidebar contents clickable
-st.sidebar.header('Table of Contents')
+st.sidebar.markdown(f"<h1 style='margin-top: 0px;'>Spotify Recommendation Algorithm</h1>", unsafe_allow_html=True)
 st.sidebar.markdown(f"<a href='#introduction-background' style='text-decoration: none; color: #90EE90;'><h2>Introduction/Background</h2></a>", unsafe_allow_html=True)
 #st.sidebar.markdown(f"<hr style='border: 1px solid white; margin: 1px;'>", unsafe_allow_html=True)
 st.sidebar.markdown(f"<a href='#problem-definition' style='text-decoration: none; color: #90EE90;'><h2>Problem Definition</h2></a>", unsafe_allow_html=True)
