@@ -59,11 +59,7 @@ if st.button("Get Recommendations"):
         col1, col2, col3, col4, col5 = st.columns(5)
         if st.session_state.show_results:
             for i in range(1, len(song_details) + 1):
-                print(song_details[i-1])
-                if i % 5 == 1:
-                    with col1:                        
-                        with st.container():
-                            spotifyButton_html = f"""
+                spotifyButton_html = f"""
                             <style>
                                 .custom-button {{
                                     color: white;
@@ -89,6 +85,9 @@ if st.button("Get Recommendations"):
                             <button class="custom-button">Listen on Spotify</button>
                         </a>
                             """
+                if i % 5 == 1:
+                    with col1:                        
+                        with st.container():
                             st.subheader(f'{song_details[i-1]["song_name"]}')
                             st.text(f"Genre: {song_details[i-1]['genre']}")
                             st.markdown(spotifyButton_html, unsafe_allow_html=True)
@@ -97,32 +96,6 @@ if st.button("Get Recommendations"):
                 elif i % 5 == 2:
                     with col2:
                         with st.container():
-                            spotifyButton_html = f"""
-                            <style>
-                                .custom-button {{
-                                    color: white;
-                                    border: 2px solid white;
-                                    padding: 10px 20px;
-                                    border-radius: 15px;
-                                    text-align: center;
-                                    text-decoration: none;
-                                    display: inline-block;
-                                    font-size: 16px;
-                                    margin: 4px 2px;
-                                    cursor: pointer;
-                                    background-color: black; /* Black background */
-                                    transition-duration: 0.4s;
-                                }}
-                                .custom-button:hover {{
-                                    color: #1DB954; /* Text turns green on hover */
-                                    border: 2px solid #1DB954; /* Border turns green on hover */
-                                    background-color: black; /* Background stays black */
-                                }}
-                            </style>
-                        <a href="{song_details[i-1]['url']}" target="_blank">
-                            <button class="custom-button">Listen on Spotify</button>
-                        </a>
-                            """
                             st.subheader(f'{song_details[i-1]["song_name"]}')
                             st.text(f"Genre: {song_details[i-1]['genre']}")
                             st.markdown(spotifyButton_html, unsafe_allow_html=True)
@@ -130,32 +103,6 @@ if st.button("Get Recommendations"):
                 elif i % 5 == 3:
                     with col3:
                         with st.container():
-                            spotifyButton_html = f"""
-                            <style>
-                                .custom-button {{
-                                    color: white;
-                                    border: 2px solid white;
-                                    padding: 10px 20px;
-                                    border-radius: 15px;
-                                    text-align: center;
-                                    text-decoration: none;
-                                    display: inline-block;
-                                    font-size: 16px;
-                                    margin: 4px 2px;
-                                    cursor: pointer;
-                                    background-color: black; /* Black background */
-                                    transition-duration: 0.4s;
-                                }}
-                                .custom-button:hover {{
-                                    color: #1DB954; /* Text turns green on hover */
-                                    border: 2px solid #1DB954; /* Border turns green on hover */
-                                    background-color: black; /* Background stays black */
-                                }}
-                            </style>
-                        <a href="{song_details[i-1]['url']}" target="_blank">
-                            <button class="custom-button">Listen on Spotify</button>
-                        </a>
-                            """
                             st.subheader(f'{song_details[i-1]["song_name"]}')
                             st.text(f"Genre: {song_details[i-1]['genre']}")
                             st.markdown(spotifyButton_html, unsafe_allow_html=True)
@@ -163,32 +110,6 @@ if st.button("Get Recommendations"):
                 elif i % 5 == 4:
                     with col4:
                         with st.container():
-                            spotifyButton_html = f"""
-                            <style>
-                                .custom-button {{
-                                    color: white;
-                                    border: 2px solid white;
-                                    padding: 10px 20px;
-                                    border-radius: 15px;
-                                    text-align: center;
-                                    text-decoration: none;
-                                    display: inline-block;
-                                    font-size: 16px;
-                                    margin: 4px 2px;
-                                    cursor: pointer;
-                                    background-color: black; /* Black background */
-                                    transition-duration: 0.4s;
-                                }}
-                                .custom-button:hover {{
-                                    color: #1DB954; /* Text turns green on hover */
-                                    border: 2px solid #1DB954; /* Border turns green on hover */
-                                    background-color: black; /* Background stays black */
-                                }}
-                            </style>
-                        <a href="{song_details[i-1]['url']}" target="_blank">
-                            <button class="custom-button">Listen on Spotify</button>
-                        </a>
-                            """
                             st.subheader(f'{song_details[i-1]["song_name"]}')
                             st.text(f"Genre: {song_details[i-1]['genre']}")
                             st.markdown(spotifyButton_html, unsafe_allow_html=True)
@@ -196,32 +117,6 @@ if st.button("Get Recommendations"):
                 else:
                     with col5:
                         with st.container():
-                            spotifyButton_html = f"""
-                            <style>
-                                .custom-button {{
-                                    color: white;
-                                    border: 2px solid white;
-                                    padding: 10px 20px;
-                                    border-radius: 15px;
-                                    text-align: center;
-                                    text-decoration: none;
-                                    display: inline-block;
-                                    font-size: 16px;
-                                    margin: 4px 2px;
-                                    cursor: pointer;
-                                    background-color: black; /* Black background */
-                                    transition-duration: 0.4s;
-                                }}
-                                .custom-button:hover {{
-                                    color: #1DB954; /* Text turns green on hover */
-                                    border: 2px solid #1DB954; /* Border turns green on hover */
-                                    background-color: black; /* Background stays black */
-                                }}
-                            </style>
-                        <a href="{song_details[i-1]['url']}" target="_blank">
-                            <button class="custom-button">Listen on Spotify</button>
-                        </a>
-                            """
                             st.subheader(f'{song_details[i-1]["song_name"]}')
                             st.text(f"Genre: {song_details[i-1]['genre']}")
                             st.markdown(spotifyButton_html, unsafe_allow_html=True)
