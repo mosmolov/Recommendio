@@ -33,7 +33,7 @@ st.header("Problem Definition")
 st.header("Dataset")
 'We will be using a [Kaggle dataset](https://www.kaggle.com/datasets/mrmorj/dataset-of-songs-in-spotify/data) of Spotify songs and playlists which has data on each song\'s metrics according to its danceability, energy, speechiness, instrumentalness, and more [4].'
 # Read in data
-df = pd.read_csv('genres_v2.csv')
+df = pd.read_csv('algorithms/genres_v2.csv')
 st.dataframe(df[20:30])
 
 '**Danceability** - Combines tempo, rhythm stability, beat strength, and overall regularity to give a value for how \"danceable\" a song is.'
