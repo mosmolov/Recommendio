@@ -5,6 +5,9 @@ st.set_page_config(
         page_icon="musical_note",
         layout="wide",
     )
+from models import get_KNN_recommendations
+
+data = pd.read_csv('algorithms/genres_v2.csv')
 # add sidebar with clickable table of contents to navigate to different headers
 # make sidebar contents clickable
 st.sidebar.markdown(f"<h1 style='margin-top: 0px;'>Spotify Recommendation Algorithm</h1>", unsafe_allow_html=True)
@@ -22,6 +25,82 @@ st.sidebar.markdown(f"<a href='#references' style='text-decoration: none; color:
 
 '# Spotify Recommendation Algorithm' 
 
+st.header("Get Recommendations")
+user_input = st.text_input("Enter a song name", autocomplete="on", placeholder="XO Tour Llif3")
+if st.button("Get Recommendations"):
+    try:
+        recommendations = get_KNN_recommendations(user_input)
+        song_details = []
+        for name in recommendations:
+            # Find the song in the dataset
+            song = data[data['song_name'] == name]
+            # select only first row  
+            song = song.iloc[0]
+            songUrl = 'https://open.spotify.com/track/' + song["id"]
+            # Extract artist, genre, and other details
+            genre = song['genre']
+            if name.count('$') == 2:
+                name = name.replace('$', '\\$')
+            if genre and songUrl:
+                song_details.append({'song_name': name, 'genre': genre, 'url': songUrl})
+            elif genre:
+                song_details.append({'song_name': name, 'genre': genre})
+            elif songUrl:
+                song_details.append({'song_name': name, 'url': songUrl})
+            print(song_details)
+        col1, col2, col3, col4, col5 = st.columns(5)
+        for i in range(1, len(song_details) + 1):
+            print(song_details[i-1])
+            if i % 5 == 1:
+                with col1:                        
+                    with st.container():
+                        st.subheader(f'{song_details[i-1]["song_name"]}')
+                        st.text(f"Genre: {song_details[i-1]['genre']}")
+                        if st.button("Listen on Spotify", key=i):
+                            (song_details[i-1]['url'])                       # Display other details if available
+                        # # add separator at standard height
+                        # st.markdown("---")
+            elif i % 5 == 2:
+                with col2:
+                    with st.container():
+                        st.subheader(f'{song_details[i-1]["song_name"]}')
+                        st.text(f"Genre: {song_details[i-1]['genre']}")
+                        try:
+                            if st.button("Listen on Spotify", key=i):
+                                (song_details[i-1]['url'])                        # Display other details if available
+                        except:
+                            pass
+                        # st.markdown("---")
+            elif i % 5 == 3:
+                with col3:
+                    with st.container():
+                        st.subheader(f'{song_details[i-1]["song_name"]}')
+                        st.text(f"Genre: {song_details[i-1]['genre']}")
+                        if st.button("Listen on Spotify", key=i):
+                            (song_details[i-1]['url'])                        # Display other details if available
+                        # st.markdown("---")
+            elif i % 5 == 4:
+                with col4:
+                    with st.container():
+                        st.subheader(f'{song_details[i-1]["song_name"]}')
+                        st.text(f"Genre: {song_details[i-1]['genre']}")
+                        if st.button("Listen on Spotify", key=i):
+                            (song_details[i-1]['url'])
+                        # Display other details if available
+                        # st.markdown("---")
+            else:
+                with col5:
+                    with st.container():
+                        st.subheader(f'{song_details[i-1]["song_name"]}')
+                        st.text(f"Genre: {song_details[i-1]['genre']}")
+                        if st.button("Listen on Spotify", key=i):
+                            (song_details[i-1]['url'])                        # Display other details if available
+                        # st.markdown("---")
+                
+    except:
+        st.error("Song not found. Please try again.")
+    
+    
 st.header("Introduction/Background") #A quick introduction of your topic and mostly literature review of what has been done in this area. 
 'Finding new music is something that everyone struggles with. We aim to quell the struggle using machine learning to suggest songs similar to user taste, by analyzing existent songs on Spotify according to their features of danceability, energy, and others.'
 'By doing this, we will be able to recommend songs to users according to several filters that they select, which will be according to mood, vocals, genre, and others.'
@@ -33,7 +112,7 @@ st.header("Problem Definition")
 st.header("Dataset")
 'We will be using a [Kaggle dataset](https://www.kaggle.com/datasets/mrmorj/dataset-of-songs-in-spotify/data) of Spotify songs and playlists which has data on each song\'s metrics according to its danceability, energy, speechiness, instrumentalness, and more [4].'
 # Read in data
-df = pd.read_csv('algorithms/genres_v2.csv')
+df = pd.read_csv('algorithms/genres_v2.csv', low_memory=False)
 st.dataframe(df[20:30])
 
 '**Danceability** - Combines tempo, rhythm stability, beat strength, and overall regularity to give a value for how \"danceable\" a song is.'
