@@ -6,8 +6,14 @@ st.set_page_config(
         layout="wide",
     )
 from models import get_KNN_recommendations
+from fuzzywuzzy import process
+import webbrowser
 
-data = pd.read_csv('algorithms/genres_v2.csv')
+data = pd.read_csv('algorithms/genres_v2.csv', low_memory=False)
+if 'show_results' not in st.session_state:
+    st.session_state.show_results = False
+def open_link(url):
+    webbrowser.open_new_tab(url)
 # add sidebar with clickable table of contents to navigate to different headers
 # make sidebar contents clickable
 st.sidebar.markdown(f"<h1 style='margin-top: 0px;'>Spotify Recommendation Algorithm</h1>", unsafe_allow_html=True)
@@ -26,8 +32,10 @@ st.sidebar.markdown(f"<a href='#references' style='text-decoration: none; color:
 '# Spotify Recommendation Algorithm' 
 
 st.header("Get Recommendations")
-user_input = st.text_input("Enter a song name", autocomplete="on", placeholder="XO Tour Llif3")
+# allow user to search for a song
+user_input = st.text_input("Enter a song name", "XO Tour Llif3")
 if st.button("Get Recommendations"):
+    st.session_state.show_results = True
     try:
         recommendations = get_KNN_recommendations(user_input)
         song_details = []
@@ -49,56 +57,186 @@ if st.button("Get Recommendations"):
                 song_details.append({'song_name': name, 'url': songUrl})
             print(song_details)
         col1, col2, col3, col4, col5 = st.columns(5)
-        for i in range(1, len(song_details) + 1):
-            print(song_details[i-1])
-            if i % 5 == 1:
-                with col1:                        
-                    with st.container():
-                        st.subheader(f'{song_details[i-1]["song_name"]}')
-                        st.text(f"Genre: {song_details[i-1]['genre']}")
-                        if st.button("Listen on Spotify", key=i):
-                            (song_details[i-1]['url'])                       # Display other details if available
-                        # # add separator at standard height
-                        # st.markdown("---")
-            elif i % 5 == 2:
-                with col2:
-                    with st.container():
-                        st.subheader(f'{song_details[i-1]["song_name"]}')
-                        st.text(f"Genre: {song_details[i-1]['genre']}")
-                        try:
-                            if st.button("Listen on Spotify", key=i):
-                                (song_details[i-1]['url'])                        # Display other details if available
-                        except:
-                            pass
-                        # st.markdown("---")
-            elif i % 5 == 3:
-                with col3:
-                    with st.container():
-                        st.subheader(f'{song_details[i-1]["song_name"]}')
-                        st.text(f"Genre: {song_details[i-1]['genre']}")
-                        if st.button("Listen on Spotify", key=i):
-                            (song_details[i-1]['url'])                        # Display other details if available
-                        # st.markdown("---")
-            elif i % 5 == 4:
-                with col4:
-                    with st.container():
-                        st.subheader(f'{song_details[i-1]["song_name"]}')
-                        st.text(f"Genre: {song_details[i-1]['genre']}")
-                        if st.button("Listen on Spotify", key=i):
-                            (song_details[i-1]['url'])
-                        # Display other details if available
-                        # st.markdown("---")
-            else:
-                with col5:
-                    with st.container():
-                        st.subheader(f'{song_details[i-1]["song_name"]}')
-                        st.text(f"Genre: {song_details[i-1]['genre']}")
-                        if st.button("Listen on Spotify", key=i):
-                            (song_details[i-1]['url'])                        # Display other details if available
-                        # st.markdown("---")
+        if st.session_state.show_results:
+            for i in range(1, len(song_details) + 1):
+                print(song_details[i-1])
+                if i % 5 == 1:
+                    with col1:                        
+                        with st.container():
+                            spotifyButton_html = f"""
+                            <style>
+                                .custom-button {{
+                                    color: white;
+                                    border: 2px solid white;
+                                    padding: 10px 20px;
+                                    border-radius: 15px;
+                                    text-align: center;
+                                    text-decoration: none;
+                                    display: inline-block;
+                                    font-size: 16px;
+                                    margin: 4px 2px;
+                                    cursor: pointer;
+                                    background-color: black; /* Black background */
+                                    transition-duration: 0.4s;
+                                }}
+                                .custom-button:hover {{
+                                    color: #1DB954; /* Text turns green on hover */
+                                    border: 2px solid #1DB954; /* Border turns green on hover */
+                                    background-color: black; /* Background stays black */
+                                }}
+                            </style>
+                        <a href="{song_details[i-1]['url']}" target="_blank">
+                            <button class="custom-button">Listen on Spotify</button>
+                        </a>
+                            """
+                            st.subheader(f'{song_details[i-1]["song_name"]}')
+                            st.text(f"Genre: {song_details[i-1]['genre']}")
+                            st.markdown(spotifyButton_html, unsafe_allow_html=True)
+                            # # add separator at standard height
+                            # st.markdown("---")
+                elif i % 5 == 2:
+                    with col2:
+                        with st.container():
+                            spotifyButton_html = f"""
+                            <style>
+                                .custom-button {{
+                                    color: white;
+                                    border: 2px solid white;
+                                    padding: 10px 20px;
+                                    border-radius: 15px;
+                                    text-align: center;
+                                    text-decoration: none;
+                                    display: inline-block;
+                                    font-size: 16px;
+                                    margin: 4px 2px;
+                                    cursor: pointer;
+                                    background-color: black; /* Black background */
+                                    transition-duration: 0.4s;
+                                }}
+                                .custom-button:hover {{
+                                    color: #1DB954; /* Text turns green on hover */
+                                    border: 2px solid #1DB954; /* Border turns green on hover */
+                                    background-color: black; /* Background stays black */
+                                }}
+                            </style>
+                        <a href="{song_details[i-1]['url']}" target="_blank">
+                            <button class="custom-button">Listen on Spotify</button>
+                        </a>
+                            """
+                            st.subheader(f'{song_details[i-1]["song_name"]}')
+                            st.text(f"Genre: {song_details[i-1]['genre']}")
+                            st.markdown(spotifyButton_html, unsafe_allow_html=True)
+                            # st.markdown("---")
+                elif i % 5 == 3:
+                    with col3:
+                        with st.container():
+                            spotifyButton_html = f"""
+                            <style>
+                                .custom-button {{
+                                    color: white;
+                                    border: 2px solid white;
+                                    padding: 10px 20px;
+                                    border-radius: 15px;
+                                    text-align: center;
+                                    text-decoration: none;
+                                    display: inline-block;
+                                    font-size: 16px;
+                                    margin: 4px 2px;
+                                    cursor: pointer;
+                                    background-color: black; /* Black background */
+                                    transition-duration: 0.4s;
+                                }}
+                                .custom-button:hover {{
+                                    color: #1DB954; /* Text turns green on hover */
+                                    border: 2px solid #1DB954; /* Border turns green on hover */
+                                    background-color: black; /* Background stays black */
+                                }}
+                            </style>
+                        <a href="{song_details[i-1]['url']}" target="_blank">
+                            <button class="custom-button">Listen on Spotify</button>
+                        </a>
+                            """
+                            st.subheader(f'{song_details[i-1]["song_name"]}')
+                            st.text(f"Genre: {song_details[i-1]['genre']}")
+                            st.markdown(spotifyButton_html, unsafe_allow_html=True)
+                            # st.markdown("---")
+                elif i % 5 == 4:
+                    with col4:
+                        with st.container():
+                            spotifyButton_html = f"""
+                            <style>
+                                .custom-button {{
+                                    color: white;
+                                    border: 2px solid white;
+                                    padding: 10px 20px;
+                                    border-radius: 15px;
+                                    text-align: center;
+                                    text-decoration: none;
+                                    display: inline-block;
+                                    font-size: 16px;
+                                    margin: 4px 2px;
+                                    cursor: pointer;
+                                    background-color: black; /* Black background */
+                                    transition-duration: 0.4s;
+                                }}
+                                .custom-button:hover {{
+                                    color: #1DB954; /* Text turns green on hover */
+                                    border: 2px solid #1DB954; /* Border turns green on hover */
+                                    background-color: black; /* Background stays black */
+                                }}
+                            </style>
+                        <a href="{song_details[i-1]['url']}" target="_blank">
+                            <button class="custom-button">Listen on Spotify</button>
+                        </a>
+                            """
+                            st.subheader(f'{song_details[i-1]["song_name"]}')
+                            st.text(f"Genre: {song_details[i-1]['genre']}")
+                            st.markdown(spotifyButton_html, unsafe_allow_html=True)
+                            # st.markdown("---")
+                else:
+                    with col5:
+                        with st.container():
+                            spotifyButton_html = f"""
+                            <style>
+                                .custom-button {{
+                                    color: white;
+                                    border: 2px solid white;
+                                    padding: 10px 20px;
+                                    border-radius: 15px;
+                                    text-align: center;
+                                    text-decoration: none;
+                                    display: inline-block;
+                                    font-size: 16px;
+                                    margin: 4px 2px;
+                                    cursor: pointer;
+                                    background-color: black; /* Black background */
+                                    transition-duration: 0.4s;
+                                }}
+                                .custom-button:hover {{
+                                    color: #1DB954; /* Text turns green on hover */
+                                    border: 2px solid #1DB954; /* Border turns green on hover */
+                                    background-color: black; /* Background stays black */
+                                }}
+                            </style>
+                        <a href="{song_details[i-1]['url']}" target="_blank">
+                            <button class="custom-button">Listen on Spotify</button>
+                        </a>
+                            """
+                            st.subheader(f'{song_details[i-1]["song_name"]}')
+                            st.text(f"Genre: {song_details[i-1]['genre']}")
+                            st.markdown(spotifyButton_html, unsafe_allow_html=True)
+                                
+                            # st.markdown("---")
                 
     except:
-        st.error("Song not found. Please try again.")
+        st.error("Song not found. Did you mean to input one of these songs?")
+        if user_input:
+            songNames = data['song_name'].dropna().tolist()
+            suggestions= process.extract(user_input, songNames, limit=5)
+            # remove duplicates from suggestions
+            suggestions = list(dict.fromkeys(suggestions))
+            for suggestion in suggestions:
+                st.write(suggestion[0])
     
     
 st.header("Introduction/Background") #A quick introduction of your topic and mostly literature review of what has been done in this area. 
