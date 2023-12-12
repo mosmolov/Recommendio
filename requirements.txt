@@ -1,3 +1,4 @@
 scikit-learn
 fuzzywuzzy
 pandas
+python-Levenshtein
