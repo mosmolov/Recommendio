@@ -56,7 +56,6 @@ if st.button("Get Recommendations"):
                 song_details.append({'song_name': name, 'genre': genre})
             elif songUrl:
                 song_details.append({'song_name': name, 'url': songUrl})
-            print(song_details)
         col1, col2, col3, col4, col5 = st.columns(5)
         if st.session_state.show_results:
             for i in range(1, len(song_details) + 1):
