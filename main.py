@@ -1,3 +1,4 @@
+import time
 import streamlit as st
 import pandas as pd
 st.set_page_config(
@@ -40,6 +41,10 @@ if st.button("Get Recommendations"):
     try:
         recommendations = get_KNN_recommendations(user_input) if typeOfModel == "KNN" else (get_CosineSim_Recommendations(user_input) if typeOfModel == "Cosine Similarity" else get_CosineSim_Recommendations_Diverse(user_input))
         song_details = []
+        # find song details for input
+        song = data[data['song_name'] == user_input]
+        song = song.iloc[0]
+        inputSongURL = 'https://open.spotify.com/track/' + song["id"]
         for name in recommendations:
             # Find the song in the dataset
             song = data[data['song_name'] == name]
@@ -56,8 +61,12 @@ if st.button("Get Recommendations"):
                 song_details.append({'song_name': name, 'genre': genre})
             elif songUrl:
                 song_details.append({'song_name': name, 'url': songUrl})
-        col1, col2, col3, col4, col5 = st.columns(5)
         if st.session_state.show_results:
+            inputSong_html = f"""
+            <a href="{inputSongURL}" target="_blank"><h2>Recommendations for {user_input}</h2></a>
+            """
+            st.markdown(inputSong_html, unsafe_allow_html=True)
+            col1, col2, col3, col4, col5 = st.columns(5)
             for i in range(1, len(song_details) + 1):
                 spotifyButton_html = f"""
                             <style>
@@ -85,6 +94,7 @@ if st.button("Get Recommendations"):
                             <button class="custom-button">Listen on Spotify</button>
                         </a>
                             """
+                
                 if i % 5 == 1:
                     with col1:                        
                         with st.container():
@@ -125,6 +135,11 @@ if st.button("Get Recommendations"):
                 
     except:
         st.error("Song not found. Did you mean to input one of these songs?")
+        bar = st.progress(25)
+        time.sleep(1.5)
+        bar.progress(100)
+        time.sleep(0.5)
+        bar.empty()
         if user_input:
             songNames = data['song_name'].dropna().tolist()
             suggestions= process.extract(user_input, songNames, limit=5)
