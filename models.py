@@ -72,4 +72,44 @@ def get_CosineSim_Recommendations(song_name, num_of_songs=5):
     recommended_songs = df_unique_songs.iloc[song_indices]
     
     return recommended_songs['song_name'].tolist()
+
+def get_CosineSim_Recommendations_Diverse(song_name, num_of_songs=5, diversity_threshold=0.7):
+    df_unique_songs = data.drop_duplicates(subset='song_name', keep='first')
+    # Normalize the feature values using Min-Max Scaler
+    scaler = MinMaxScaler()
+    features = ['acousticness', 'danceability', 'energy', 'instrumentalness', 
+                'liveness', 'loudness', 'speechiness', 'valence', 'tempo', 'key']
+    df_scaled = pd.DataFrame(scaler.fit_transform(df_unique_songs[features]), 
+                            index=df_unique_songs.index, 
+                            columns=features)
+    # Compute the cosine similarity matrix
+    cosine_sim_matrix = cosine_similarity(df_scaled)
+    if song_name not in df_unique_songs['song_name'].values:
+        print(f"The song '{song_name}' does not exist in the dataset. Please check for typos or use a different song.")
+        return []
+
+    # Find the index of the song that matches the song_name
+    song_index = df_unique_songs.index[df_unique_songs['song_name'] == song_name].tolist()[0]
+    # Get similarity scores for the input song
+    sim_scores = cosine_sim_matrix[song_index]
+    
+    # Get indices of songs sorted by similarity score
+    sorted_indices = np.argsort(sim_scores)[::-1]
+    
+    # Start with the most similar song
+    recommended_indices = [sorted_indices[0]]
+    
+    # Now loop over the sorted list and add only those songs that introduce more diversity
+    for index in sorted_indices[1:]:
+        # Skip if this song is too similar to any of the songs we've already added
+        if all(cosine_sim_matrix[index, already_rec] < diversity_threshold for already_rec in recommended_indices):
+            recommended_indices.append(index)
+        if len(recommended_indices) >= num_of_songs:
+            break
+    
+    # Fetch the song names using the indices
+    recommended_songs = df_unique_songs.iloc[recommended_indices]
+    
+    return recommended_songs['song_name'].tolist()
+    
     

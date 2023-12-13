@@ -5,7 +5,7 @@ st.set_page_config(
         page_icon="musical_note",
         layout="wide",
     )
-from models import get_KNN_recommendations, get_CosineSim_Recommendations
+from models import get_KNN_recommendations, get_CosineSim_Recommendations, get_CosineSim_Recommendations_Diverse
 from fuzzywuzzy import process
 import webbrowser
 
@@ -34,11 +34,11 @@ st.sidebar.markdown(f"<a href='#references' style='text-decoration: none; color:
 st.header("Get Recommendations")
 # allow user to search for a song
 user_input = st.text_input("Enter a song name", "XO Tour Llif3")
-typeOfModel = st.selectbox("Select a model", ("KNN", "Cosine Similarity"))
+typeOfModel = st.selectbox("Select a model", ("KNN", "Cosine Similarity", "Diverse Cosine Similarity"))
 if st.button("Get Recommendations"):
     st.session_state.show_results = True
     try:
-        recommendations = get_KNN_recommendations(user_input) if typeOfModel == "KNN" else get_CosineSim_Recommendations(user_input)
+        recommendations = get_KNN_recommendations(user_input) if typeOfModel == "KNN" else (get_CosineSim_Recommendations(user_input) if typeOfModel == "Cosine Similarity" else get_CosineSim_Recommendations_Diverse(user_input))
         song_details = []
         for name in recommendations:
             # Find the song in the dataset
